@@ -2,6 +2,7 @@ var renderer;
 var scene;
 var camera;
 var sphere;
+
 function init() {
     // set the scene size
   var WIDTH = 800,
@@ -19,7 +20,7 @@ function init() {
 
   // create a WebGL renderer, camera
   // and a scene
-  renderer = new THREE.WebGLRenderer();
+  renderer = new THREE.WebGLRenderer({antialias:true});
   camera =
     new THREE.PerspectiveCamera(
       VIEW_ANGLE,
@@ -43,22 +44,22 @@ function init() {
   $container.append(renderer.domElement);
 
   // create the sphere's material
+  var sphereColor = 0xCC0000;
   var sphereMaterial =
     new THREE.MeshLambertMaterial(
       {
-        color: 0xCC0000
+        color: sphereColor,
+        ambient: sphereColor
       });
 
   // create a new mesh with
   // sphere geometry - we will cover
   // the sphereMaterial next!
   sphere = new THREE.Mesh(
-
     new THREE.SphereGeometry(
       50,
       16,
       16),
-
     sphereMaterial);
 
   // add the sphere to the scene
@@ -72,6 +73,12 @@ function init() {
   pointLight.position.x = 10;
   pointLight.position.y = 50;
   pointLight.position.z = 130;
+
+  scene.add(pointLight);
+
+  var ambientLight = new THREE.AmbientLight(0x404040);
+  scene.add(ambientLight);
+  
   pressed = {};
   bullets = [];
 
