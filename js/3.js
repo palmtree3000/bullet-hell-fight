@@ -14,7 +14,7 @@ var $container = $('#container');
 
 // create a WebGL renderer, camera
 // and a scene
-var renderer = new THREE.WebGLRenderer();
+var renderer = new THREE.WebGLRenderer({antialias:true});
 var camera =
   new THREE.PerspectiveCamera(
     VIEW_ANGLE,
