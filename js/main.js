@@ -1,14 +1,77 @@
+var renderer;
+var scene;
+var camera;
+var sphere;
 function init() {
-  var stage = new createjs.Stage("demoCanvas")
-  //var background = new createjs.Bitmap("fractal.jpg")
-  //stage.addChild(background);
-  var circle = new createjs.Shape();
-  circle.graphics.beginFill("red").drawCircle(0,0,50);
-  circle.x = 100;
-  circle.y = 100;
-  stage.addChild(circle);
-  createjs.Ticker.addEventListener("tick", tick);
-  createjs.Ticker.setFPS(60);
+    // set the scene size
+  var WIDTH = 800,
+    HEIGHT = 600;
+
+  // set some camera attributes
+  var VIEW_ANGLE = 45, // probably not what we want
+    ASPECT = WIDTH / HEIGHT,
+    NEAR = 0.1,
+    FAR = 10000;
+
+  // get the DOM element to attach to
+  // - assume we've got jQuery to hand
+  var $container = $('#container');
+
+  // create a WebGL renderer, camera
+  // and a scene
+  renderer = new THREE.WebGLRenderer();
+  camera =
+    new THREE.PerspectiveCamera(
+      VIEW_ANGLE,
+      ASPECT,
+      NEAR,
+      FAR);
+
+  scene = new THREE.Scene();
+
+  // add the camera to the scene
+  scene.add(camera);
+
+  // the camera starts at 0,0,0
+  // so pull it back
+  camera.position.z = 300;
+
+  // start the renderer
+  renderer.setSize(WIDTH, HEIGHT);
+
+  // attach the render-supplied DOM element
+  $container.append(renderer.domElement);
+
+  // create the sphere's material
+  var sphereMaterial =
+    new THREE.MeshLambertMaterial(
+      {
+        color: 0xCC0000
+      });
+
+  // create a new mesh with
+  // sphere geometry - we will cover
+  // the sphereMaterial next!
+  sphere = new THREE.Mesh(
+
+    new THREE.SphereGeometry(
+      50,
+      16,
+      16),
+
+    sphereMaterial);
+
+  // add the sphere to the scene
+  scene.add(sphere);
+
+  // create a point light
+  var pointLight =
+    new THREE.PointLight(0xFFFFFF);
+
+  // set its position
+  pointLight.position.x = 10;
+  pointLight.position.y = 50;
+  pointLight.position.z = 130;
   pressed = {};
   bullets = [];
 
@@ -18,15 +81,26 @@ function init() {
   document.onkeyup= function(e){ delete pressed[e.keyCode];}
 
   bulletCounter=0;
-  function tick() {
-    if (pressed[37]) {circle.x=circle.x-3};
-    if (pressed[39]) {circle.x=circle.x+3};
-    if (pressed[38]) {circle.y=circle.y-3};
-    if (pressed[40]) {circle.y=circle.y+3};
-    if (circle.x >stage.canvas.width+50) {circle.x=-50;}
-    if (circle.x <-50) {circle.x=stage.canvas.width+50;}
-    if (circle.y >stage.canvas.height+50) {circle.y=-50;}
-    if (circle.y <-50) {circle.y=stage.canvas.height+50;}
+  tick();
+}
+
+
+function tick() {
+    requestAnimationFrame(tick);
+    logictick();
+    renderer.render(scene, camera);
+    // Drawing code goes here
+}
+function logictick() {
+    if (pressed[37]) {sphere.position.x=sphere.position.x-3};
+    if (pressed[39]) {sphere.position.x=sphere.position.x+3};
+    if (pressed[38]) {sphere.position.y=sphere.position.y-3};
+    if (pressed[40]) {sphere.position.y=sphere.position.y+3};
+    // if (circle.x >stage.canvas.width+50) {circle.x=-50;}
+    // if (circle.x <-50) {circle.x=stage.canvas.width+50;}
+    // if (circle.y >stage.canvas.height+50) {circle.y=-50;}
+    // if (circle.y <-50) {circle.y=stage.canvas.height+50;}
+    /*
     bulletCounter=(bulletCounter+1)%10;
     if (bulletCounter==0) {
       newBullet=new createjs.Shape();
@@ -47,8 +121,7 @@ function init() {
         bullet.x=bullet.x-7;
       }
     }
+    */
     //console.log(pressed)
-    stage.update();
-  }
-  stage.update();
 }
+init();
