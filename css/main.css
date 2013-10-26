@@ -4,11 +4,18 @@
 }
 
 #container {
+	margin-left:auto;
+	margin-right:auto;
 	width:800px;
 	height:600px;
 }
 
 html {
 	background-color: #555555;
+	width: 100%;
+}
+
+body {
+	width: 100%;
 }
 

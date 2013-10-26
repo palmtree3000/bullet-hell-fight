@@ -39,6 +39,7 @@ function init() {
 
   // start the renderer
   renderer.setSize(WIDTH, HEIGHT);
+  renderer.setClearColor(0x000000, 1);
 
   // attach the render-supplied DOM element
   $container.append(renderer.domElement);
