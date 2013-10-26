@@ -12,15 +12,21 @@ function init() {
   pressed = {};
   bullets = [];
 
-  // set key handling
-  // in the future we may want to store the time the key was pressed so we can do increasing effects
+// set key handling
+// in the future we may want to store the time the key was pressed so we can do increasing effects
   document.onkeydown = function(e){pressed[e.keyCode]=true;}
   document.onkeyup= function(e){ delete pressed[e.keyCode];}
 
   bulletCounter=0;
   function tick() {
-    movePlayer(circle);
-    wrapShape(circle, 50);
+    if (pressed[37]) {circle.x=circle.x-3};
+    if (pressed[39]) {circle.x=circle.x+3};
+    if (pressed[38]) {circle.y=circle.y-3};
+    if (pressed[40]) {circle.y=circle.y+3};
+    if (circle.x >stage.canvas.width+50) {circle.x=-50;}
+    if (circle.x <-50) {circle.x=stage.canvas.width+50;}
+    if (circle.y >stage.canvas.height+50) {circle.y=-50;}
+    if (circle.y <-50) {circle.y=stage.canvas.height+50;}
     bulletCounter=(bulletCounter+1)%10;
     if (bulletCounter==0) {
       newBullet=new createjs.Shape();
@@ -33,7 +39,6 @@ function init() {
     for (var i=bullets.length-1; i>=0; i--){
       var bullet=bullets[i];
       if (bullet.x<0) {
-        // remove bullets that leave the canvas
         stage.removeChild(bullet);
         delete bullet;
         bullets.splice(i,1);
@@ -45,22 +50,5 @@ function init() {
     //console.log(pressed)
     stage.update();
   }
-
-  function movePlayer(shapeArg) {
-    if (pressed[37]) {shapeArg.x=shapeArg.x-3};
-    if (pressed[39]) {shapeArg.x=shapeArg.x+3};
-    if (pressed[38]) {shapeArg.y=shapeArg.y-3};
-    if (pressed[40]) {shapeArg.y=shapeArg.y+3};
-  }
-
-  function wrapShape(shapeArg, radius) {
-    if (shapeArg.x >stage.canvas.width+radius) {shapeArg.x=-radius;}
-    if (shapeArg.x <-radius) {shapeArg.x=stage.canvas.width+radius;}
-    if (shapeArg.y >stage.canvas.height+radius) {shapeArg.y=-radius;}
-    if (shapeArg.y <-radius) {shapeArg.y=stage.canvas.height+radius;}
-  }
-
   stage.update();
 }
-
-init();
