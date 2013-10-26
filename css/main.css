@@ -1,0 +1,4 @@
+.noscroll {
+	overflow-y: hidden;
+	position: fixed;
+}
