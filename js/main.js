@@ -101,8 +101,8 @@ function tick() {
 function logictick() {
     if (pressed[37]) {sphere.position.x=sphere.position.x-3};
     if (pressed[39]) {sphere.position.x=sphere.position.x+3};
-    if (pressed[38]) {sphere.position.y=sphere.position.y-3};
-    if (pressed[40]) {sphere.position.y=sphere.position.y+3};
+    if (pressed[40]) {sphere.position.y=sphere.position.y-3};
+    if (pressed[38]) {sphere.position.y=sphere.position.y+3};
     // if (circle.x >stage.canvas.width+50) {circle.x=-50;}
     // if (circle.x <-50) {circle.x=stage.canvas.width+50;}
     // if (circle.y >stage.canvas.height+50) {circle.y=-50;}
